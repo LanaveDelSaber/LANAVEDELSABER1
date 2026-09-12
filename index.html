@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦉</text></svg>">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#EEF2FF}
+body{font-family:Arial,sans-serif;background:linear-gradient(160deg,#FFF3E0 0%,#FCE4EC 28%,#E1F5FE 60%,#E8F5E9 100%);min-height:100vh}
 .wrap{max-width:680px;margin:0 auto;padding:10px}
 .sky{background:linear-gradient(180deg,#42A5F5,#90CAF9);border-radius:18px 18px 0 0;padding:14px 16px 10px;position:relative;height:96px;overflow:hidden}
 .cloud{background:#fff;border-radius:50px;position:absolute;opacity:.92}
@@ -25,11 +25,20 @@ body{font-family:Arial,sans-serif;background:#EEF2FF}
 .star{font-size:18px;transition:transform .3s}
 @keyframes starpop{0%{transform:scale(1)}50%{transform:scale(1.7)}100%{transform:scale(1)}}
 .pbwrap{background:#C8E6C9;border-radius:20px;height:10px;margin-bottom:10px;overflow:hidden}
-.pb{height:10px;border-radius:20px;background:linear-gradient(90deg,#2E7D32,#66BB6A);transition:width .5s}
+.pb{height:10px;border-radius:20px;background:linear-gradient(90deg,#43A047,#FDD835,#FB8C00);transition:width .5s}
 .tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
 .tab{padding:8px 12px;border-radius:20px;border:2px solid #9FA8DA;font-size:12px;font-weight:bold;cursor:pointer;background:#E8EAF6;color:#3949AB;transition:all .15s}
-.tab:hover{background:#C5CAE9}
-.tab.on{background:#3F51B5;color:#fff;border-color:#283593}
+.tab:hover{background:#C5CAE9;transform:translateY(-1px)}
+.tab.on{background:#3F51B5;color:#fff;border-color:#283593;box-shadow:0 3px 8px #0002}
+/* Cada pestaña tiene su propio color de acento al estar activa, como un arcoíris */
+.tab:nth-child(1).on{background:#5C6BC0;border-color:#3949AB}
+.tab:nth-child(2).on{background:#00897B;border-color:#00695C}
+.tab:nth-child(3).on{background:#EC407A;border-color:#AD1457}
+.tab:nth-child(4).on{background:#FB8C00;border-color:#E65100}
+.tab:nth-child(5).on{background:#43A047;border-color:#1B5E20}
+.tab:nth-child(6).on{background:#8E24AA;border-color:#4A148C}
+.tab:nth-child(7).on{background:#1E88E5;border-color:#0D47A1}
+.tab:nth-child(8).on{background:#E53935;border-color:#B71C1C}
 .screen{display:none}.screen.on{display:block}
 .stitle{font-size:11px;color:#757575;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px}
 .btn{padding:10px 22px;border-radius:22px;border:none;color:#fff;font-size:13px;font-weight:bold;cursor:pointer;transition:all .15s;box-shadow:0 2px 6px #0002}
@@ -38,9 +47,28 @@ body{font-family:Arial,sans-serif;background:#EEF2FF}
 /* LETRAS */
 .lgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
 .lcard{border-radius:12px;border:3px solid #9FA8DA;background:#E8EAF6;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;color:#3949AB;cursor:pointer;aspect-ratio:1;transition:all .15s}
-.lcard:hover{transform:scale(1.1);border-color:#3F51B5;background:#C5CAE9}
-.lcard.sel{background:#3F51B5;color:#fff;border-color:#283593}
-.lbig{background:#fff;border-radius:16px;border:3px solid #5C6BC0;padding:16px;text-align:center}
+.lcard:hover{transform:scale(1.1) rotate(-2deg);filter:brightness(1.08)}
+.lcard.sel{color:#fff;border-color:#212121;box-shadow:0 3px 8px #0003;transform:scale(1.06)}
+/* Paleta arcoíris que se repite cada 9 letras para que el abecedario se vea alegre */
+.lcard:nth-child(9n+1){background:#FFCDD2;color:#B71C1C}
+.lcard:nth-child(9n+2){background:#FFE0B2;color:#E65100}
+.lcard:nth-child(9n+3){background:#FFF9C4;color:#F57F17}
+.lcard:nth-child(9n+4){background:#C8E6C9;color:#1B5E20}
+.lcard:nth-child(9n+5){background:#B2EBF2;color:#00838F}
+.lcard:nth-child(9n+6){background:#BBDEFB;color:#0D47A1}
+.lcard:nth-child(9n+7){background:#D1C4E9;color:#4527A0}
+.lcard:nth-child(9n+8){background:#F8BBD0;color:#AD1457}
+.lcard:nth-child(9n+9){background:#DCEDC8;color:#33691E}
+.lcard.sel:nth-child(9n+1){background:#E53935}
+.lcard.sel:nth-child(9n+2){background:#FB8C00}
+.lcard.sel:nth-child(9n+3){background:#FDD835;color:#5D4037}
+.lcard.sel:nth-child(9n+4){background:#43A047}
+.lcard.sel:nth-child(9n+5){background:#00ACC1}
+.lcard.sel:nth-child(9n+6){background:#1E88E5}
+.lcard.sel:nth-child(9n+7){background:#7E57C2}
+.lcard.sel:nth-child(9n+8){background:#EC407A}
+.lcard.sel:nth-child(9n+9){background:#7CB342}
+.lbig{background:#fff;border-radius:16px;border:3px solid #5C6BC0;padding:16px;text-align:center;box-shadow:0 4px 14px #5C6BC022}
 .lchar{font-size:72px;font-weight:bold;color:#3F51B5;line-height:1}
 .lem{font-size:52px;display:block;margin:6px 0}
 .lword{font-size:16px;color:#283593;font-weight:bold}
@@ -66,6 +94,14 @@ body{font-family:Arial,sans-serif;background:#EEF2FF}
 .opts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
 .obt{width:54px;height:54px;border-radius:50%;border:3px solid #5C6BC0;font-size:20px;font-weight:bold;cursor:pointer;color:#3949AB;background:#E8EAF6;transition:all .15s}
 .obt:hover{background:#3F51B5;color:#fff;transform:scale(1.12)}
+.obt:nth-child(4n+1){border-color:#5C6BC0;background:#E8EAF6;color:#3949AB}
+.obt:nth-child(4n+2){border-color:#00897B;background:#E0F2F1;color:#00695C}
+.obt:nth-child(4n+3){border-color:#EC407A;background:#FCE4EC;color:#AD1457}
+.obt:nth-child(4n+4){border-color:#FB8C00;background:#FFF3E0;color:#E65100}
+.obt:hover:nth-child(4n+1){background:#5C6BC0;color:#fff}
+.obt:hover:nth-child(4n+2){background:#00897B;color:#fff}
+.obt:hover:nth-child(4n+3){background:#EC407A;color:#fff}
+.obt:hover:nth-child(4n+4){background:#FB8C00;color:#fff}
 .obt.ok{background:#C8E6C9;border-color:#388E3C;color:#1B5E20;animation:bncok .4s}
 .obt.no{background:#FFCDD2;border-color:#D32F2F;color:#B71C1C;animation:shk .3s}
 @keyframes bncok{0%{transform:scale(1)}45%{transform:scale(1.3)}100%{transform:scale(1)}}
@@ -91,13 +127,22 @@ body{font-family:Arial,sans-serif;background:#EEF2FF}
 .slot.filled{background:#C5CAE9;border-style:solid;border-color:#3F51B5}
 .orden-letters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0}
 .oletter{width:46px;height:46px;border-radius:10px;border:3px solid #5C6BC0;background:#E8EAF6;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:#3F51B5;cursor:pointer;transition:all .15s;user-select:none}
-.oletter:hover{background:#C5CAE9;transform:scale(1.1)}
+.oletter:hover{transform:scale(1.1) rotate(3deg)}
+.oletter:nth-child(4n+1){border-color:#5C6BC0;background:#E8EAF6;color:#3949AB}
+.oletter:nth-child(4n+2){border-color:#F57F17;background:#FFF3E0;color:#E65100}
+.oletter:nth-child(4n+3){border-color:#00897B;background:#E0F2F1;color:#00695C}
+.oletter:nth-child(4n+4){border-color:#D81B60;background:#FCE4EC;color:#AD1457}
 .oletter.used{opacity:.3;pointer-events:none}
 /* LECTURA */
 .story-sel{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
 .stbtn{padding:8px 13px;border-radius:20px;border:3px solid #9FA8DA;background:#E8EAF6;color:#3949AB;font-size:12px;font-weight:bold;cursor:pointer;transition:all .15s}
-.stbtn:hover{background:#C5CAE9}
-.stbtn.on{background:#3F51B5;color:#fff;border-color:#283593}
+.stbtn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.stbtn.on{color:#fff;box-shadow:0 3px 8px #0002}
+.stbtn:nth-child(5n+1).on{background:#00897B;border-color:#00695C}
+.stbtn:nth-child(5n+2).on{background:#1E88E5;border-color:#0D47A1}
+.stbtn:nth-child(5n+3).on{background:#8E24AA;border-color:#4A148C}
+.stbtn:nth-child(5n+4).on{background:#EC407A;border-color:#AD1457}
+.stbtn:nth-child(5n+5).on{background:#FB8C00;border-color:#E65100}
 .stbox{background:#fff;border-radius:16px;border:3px solid #80CBC4;padding:16px;margin-bottom:10px}
 .sttitle{font-size:16px;font-weight:bold;color:#004D40;margin-bottom:8px;text-align:center}
 .stimg{font-size:56px;text-align:center;display:block;margin-bottom:8px}
@@ -118,8 +163,15 @@ body{font-family:Arial,sans-serif;background:#EEF2FF}
 .cp.sel{border-color:#212121;transform:scale(1.2);box-shadow:0 0 0 3px #FFD54F}
 .cpick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:10px}
 .cpbtn{width:44px;height:44px;border-radius:12px;border:3px solid #9FA8DA;background:#E8EAF6;font-size:18px;font-weight:bold;color:#3949AB;cursor:pointer;transition:all .15s}
-.cpbtn:hover{border-color:#3F51B5;transform:scale(1.08)}
-.cpbtn.on{background:#3F51B5;color:#fff;border-color:#283593}
+.cpbtn:hover{transform:scale(1.08)}
+.cpbtn.on{color:#fff;box-shadow:0 3px 8px #0002}
+.cpbtn:nth-child(7n+1).on{background:#5C6BC0}
+.cpbtn:nth-child(7n+2).on{background:#00897B}
+.cpbtn:nth-child(7n+3).on{background:#EC407A}
+.cpbtn:nth-child(7n+4).on{background:#FB8C00}
+.cpbtn:nth-child(7n+5).on{background:#43A047}
+.cpbtn:nth-child(7n+6).on{background:#8E24AA}
+.cpbtn:nth-child(7n+7).on{background:#1E88E5}
 .canvaswrap{text-align:center;background:#fff;border-radius:16px;border:3px solid #5C6BC0;padding:12px;margin-bottom:8px}
 canvas{cursor:crosshair;border-radius:10px;display:block;margin:0 auto;border:2px solid #C5CAE9}
 .brush-row{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:8px}
@@ -300,29 +352,32 @@ canvas{cursor:crosshair;border-radius:10px;display:block;margin:0 auto;border:2p
 // =====================================================================
 const LS = [
   {l:'A', e:'🦅', w:'Águila'},
-  {l:'B', e:'🐝', w:'Abeja'},
+  {l:'B', e:'🫏', w:'Burro'},
   {l:'C', e:'🐴', w:'Caballo'},
   {l:'D', e:'🐬', w:'Delfín'},
   {l:'E', e:'🐘', w:'Elefante'},
   {l:'F', e:'🍓', w:'Fresa'},
   {l:'G', e:'🐱', w:'Gato'},
-  {l:'H', e:'🌿', w:'Hierba'},
+  {l:'H', e:'🐜', w:'Hormiga'},
   {l:'I', e:'🦎', w:'Iguana'},
   {l:'J', e:'🦒', w:'Jirafa'},
+  {l:'K', e:'🐨', w:'Koala'},
   {l:'L', e:'🦁', w:'León'},
   {l:'M', e:'🐒', w:'Mono'},
   {l:'N', e:'🍊', w:'Naranja'},
+  {l:'Ñ', e:'🍠', w:'Ñame'},
   {l:'O', e:'🐑', w:'Oveja'},
   {l:'P', e:'🦜', w:'Pájaro'},
+  {l:'Q', e:'🧀', w:'Queso'},
   {l:'R', e:'🐸', w:'Rana'},
   {l:'S', e:'🐍', w:'Serpiente'},
   {l:'T', e:'🐢', w:'Tortuga'},
   {l:'U', e:'🍇', w:'Uvas'},
   {l:'V', e:'🐄', w:'Vaca'},
+  {l:'W', e:'🧇', w:'Wafle'},
+  {l:'X', e:'🎵', w:'Xilófono'},
+  {l:'Y', e:'🪀', w:'Yoyo'},
   {l:'Z', e:'🦊', w:'Zorro'},
-  {l:'Ch',e:'🐐', w:'Chivo'},
-  {l:'Ll',e:'🦙', w:'Llama'},
-  {l:'Ñ', e:'🌾', w:'Ñame'},
 ];
 
 // =====================================================================
@@ -448,8 +503,11 @@ const STORIES = [
 const MM_PAIRS = [
   {up:'A',lo:'a'},{up:'B',lo:'b'},{up:'C',lo:'c'},{up:'D',lo:'d'},
   {up:'E',lo:'e'},{up:'F',lo:'f'},{up:'G',lo:'g'},{up:'H',lo:'h'},
-  {up:'M',lo:'m'},{up:'N',lo:'n'},{up:'P',lo:'p'},{up:'R',lo:'r'},
-  {up:'S',lo:'s'},{up:'T',lo:'t'},{up:'L',lo:'l'},{up:'O',lo:'o'},
+  {up:'I',lo:'i'},{up:'J',lo:'j'},{up:'K',lo:'k'},{up:'L',lo:'l'},
+  {up:'M',lo:'m'},{up:'N',lo:'n'},{up:'Ñ',lo:'ñ'},{up:'O',lo:'o'},
+  {up:'P',lo:'p'},{up:'Q',lo:'q'},{up:'R',lo:'r'},{up:'S',lo:'s'},
+  {up:'T',lo:'t'},{up:'U',lo:'u'},{up:'V',lo:'v'},{up:'W',lo:'w'},
+  {up:'X',lo:'x'},{up:'Y',lo:'y'},{up:'Z',lo:'z'},
 ];
 
 const VOWELS  = ['A','E','I','O','U'];
@@ -469,6 +527,10 @@ let esVoice = null;
 // Voces NO deseadas (Microsoft robóticas)
 const BLOCKED_VOICES = ['helena','pablo','jorge','microsoft'];
 
+// Voces con nombre de mujer suelen sonar más cálidas y amigables para niños
+const FRIENDLY_VOICES = ['paulina','lucia','lucía','mónica','monica','sofia','sofía','camila',
+  'valentina','isabela','esperanza','francisca','female','mujer','samantha','laura','carmen'];
+
 function scoreVoice(v) {
   const name = v.name.toLowerCase();
   const lang = (v.lang||'').toLowerCase();
@@ -487,6 +549,8 @@ function scoreVoice(v) {
   if (name.includes('neural') || name.includes('natural')) score += 40;
   // Premiar Google (generalmente buenas)
   if (name.includes('google')) score += 25;
+  // Premiar voces femeninas conocidas por sonar cálidas y amigables
+  if (FRIENDLY_VOICES.some(f => name.includes(f))) score += 35;
   return score;
 }
 
@@ -529,14 +593,26 @@ function say(txt, rate, pitch) {
   // Forzar español colombiano
   u.lang = 'es-CO';
   if (esVoice) u.voice = esVoice;
-  u.rate  = rate  || 0.80;
-  u.pitch = pitch || 1.05;
+  u.rate  = rate  || 0.88;
+  u.pitch = pitch || 1.18;
   // Pequeño delay para que cancel() surta efecto en Chrome
   setTimeout(() => speechSynthesis.speak(u), 80);
 }
 
 function stopStory() { speechSynthesis.cancel(); }
 function setMsg(m)   { document.getElementById('hmsg').textContent = m; }
+
+// Espera a que termine de hablar la voz actual antes de ejecutar algo (p. ej.
+// anunciar que se subió de nivel), para no interrumpir ni tapar el mensaje anterior.
+function waitForSpeechEnd(cb, guardMs, maxWaitMs){
+  guardMs = guardMs || 250; maxWaitMs = maxWaitMs || 6000;
+  if (!window.speechSynthesis) { cb(); return; }
+  const start = Date.now();
+  setTimeout(function poll(){
+    if (!speechSynthesis.speaking || Date.now()-start > maxWaitMs) cb();
+    else setTimeout(poll, 150);
+  }, guardMs);
+}
 
 // =====================================================================
 // LÓGICA DEL JUEGO
@@ -566,13 +642,15 @@ function addPts(n){
     document.getElementById('pbar').style.width=Math.min(97,8+stars*18)+'%';
     if(stars===5){
       gameLevel++; document.getElementById('lvnum').textContent=gameLevel;
-      setTimeout(()=>{
+      // Esperamos a que termine de decir lo anterior (p. ej. el nombre de la letra)
+      // antes de anunciar la subida de nivel, para que no se corten ni se tapen los mensajes.
+      waitForSpeechEnd(()=>{
         stars=1;
         for(let i=0;i<5;i++) document.getElementById('s'+i).style.opacity=i===0?'1':'0.2';
         document.getElementById('pbar').style.width='12%';
         setMsg('¡Subiste al Nivel '+gameLevel+'! ¡Eres muy listo!');
         say('Felicitaciones. Subiste de nivel.');
-      },500);
+      });
     }
   }
 }
