@@ -38,7 +38,7 @@ const WLEVELS = [
     {e:'🐸', w:'RANA',     a:'R', o:['L','R','N','T']},
     {e:'🦜', w:'PÁJARO',   a:'P', o:['B','P','T','D']},
     {e:'🐒', w:'MONO',     a:'M', o:['N','A','M','S']},
-    {e:'🌻', w:'SOL',      a:'S', o:['S','C','Z','T']},
+    {e:'☀️', w:'SOL',      a:'S', o:['S','C','Z','T']},
   ],
   // Nivel 2
   [
