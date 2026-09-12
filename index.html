@@ -19,6 +19,10 @@ body{font-family:Arial,sans-serif;background:linear-gradient(160deg,#FFF3E0 0%,#
 .hface{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#5C6BC0,#3949AB);display:flex;align-items:center;justify-content:center;font-size:28px;border:3px solid #283593;flex-shrink:0}
 .hmsg{font-size:13px;color:#283593;font-weight:bold;line-height:1.45}
 .vstatus{font-size:11px;text-align:right;margin-bottom:5px;font-weight:bold;padding:3px 8px;border-radius:8px;background:#E8EAF6}
+.voice-row{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.voice-row .vstatus{margin-bottom:0}
+.voice-select{font-size:11px;font-weight:bold;color:#3949AB;background:#fff;border:2px solid #9FA8DA;border-radius:8px;padding:3px 6px;max-width:220px;cursor:pointer}
+.voice-select:hover{border-color:#5C6BC0}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .lvbadge{background:#FFF9C4;color:#F57F17;border-radius:20px;padding:5px 13px;font-size:13px;font-weight:bold;border:2px solid #FFD54F}
 .starsrow{display:flex;gap:3px}
@@ -202,7 +206,10 @@ canvas{cursor:crosshair;border-radius:10px;display:block;margin:0 auto;border:2p
   <div class="hface">🦉</div>
   <div class="hmsg" id="hmsg">¡Hola! Soy Sabio el búho. ¡Bienvenido a aprender español colombiano!</div>
 </div>
-<div class="vstatus" id="vstatus">🔊 Buscando la mejor voz en español...</div>
+<div class="voice-row">
+  <div class="vstatus" id="vstatus">🔊 Buscando la mejor voz en español...</div>
+  <select class="voice-select" id="voice-select" title="Elegir voz"></select>
+</div>
 
 <div class="topbar">
   <div class="lvbadge">🏆 Nivel <span id="lvnum">1</span> &nbsp;|&nbsp; <span id="pts">0 pts</span></div>
@@ -523,6 +530,7 @@ const CLETTERS= ['A','B','C','E','G','L','M','N','O','P','R','S','T','U'];
 // Orden de preferencia: voces naturales latinoamericanas primero
 // =====================================================================
 let esVoice = null;
+let userPickedVoice = false; // si el usuario elige una voz manualmente, dejamos de auto-seleccionar
 
 // Voces NO deseadas (Microsoft robóticas)
 const BLOCKED_VOICES = ['helena','pablo','jorge','microsoft'];
@@ -554,26 +562,67 @@ function scoreVoice(v) {
   return score;
 }
 
+function populateVoiceSelect(candidates) {
+  const sel = document.getElementById('voice-select');
+  if (!sel) return;
+  const prevValue = sel.value;
+  sel.innerHTML = '';
+  if (!candidates.length) {
+    const opt = document.createElement('option');
+    opt.textContent = 'Sin voces en español'; sel.appendChild(opt);
+    sel.disabled = true;
+    return;
+  }
+  sel.disabled = false;
+  candidates.forEach(({v}, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name + ' (' + v.lang + ')';
+    sel.appendChild(opt);
+  });
+  // Mantener la selección del usuario si sigue disponible; si no, usar la mejor (índice 0)
+  sel.value = (userPickedVoice && prevValue !== '') ? prevValue : 0;
+  esVoice = candidates[Number(sel.value)].v;
+}
+
+document.getElementById('voice-select').addEventListener('change', (e) => {
+  const idx = Number(e.target.value);
+  const vs = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('es'));
+  if (vs[idx]) {
+    esVoice = vs[idx];
+    userPickedVoice = true;
+    const el = document.getElementById('vstatus');
+    el.textContent = '🔊 Voz elegida: ' + esVoice.name + ' (' + esVoice.lang + ')';
+    el.style.color = '#2E7D32'; el.style.background = '#C8E6C9';
+    say('Hola, así sueno yo. ¡Vamos a aprender juntos!');
+  }
+});
+
 function loadVoices() {
   const vs = window.speechSynthesis.getVoices();
   if (!vs.length) return;
 
-  const candidates = vs
+  const allSpanish = vs
+    .filter(v => v.lang && v.lang.toLowerCase().startsWith('es'))
     .map(v => ({ v, score: scoreVoice(v) }))
-    .filter(x => x.score >= 0 && x.v.lang && x.v.lang.toLowerCase().startsWith('es'))
     .sort((a, b) => b.score - a.score);
 
-  esVoice = candidates.length ? candidates[0].v : null;
+  populateVoiceSelect(allSpanish);
 
-  const el = document.getElementById('vstatus');
-  if (esVoice) {
-    el.textContent = '🔊 Voz activa: ' + esVoice.name + ' (' + esVoice.lang + ')';
-    el.style.color = '#2E7D32';
-    el.style.background = '#C8E6C9';
-  } else {
-    el.textContent = '⚠️ Sin voz en español. Actívala en los ajustes del dispositivo.';
-    el.style.color = '#B71C1C';
-    el.style.background = '#FFCDD2';
+  if (!userPickedVoice) {
+    const candidates = allSpanish.filter(x => x.score >= 0);
+    esVoice = candidates.length ? candidates[0].v : (allSpanish[0] ? allSpanish[0].v : null);
+
+    const el = document.getElementById('vstatus');
+    if (esVoice) {
+      el.textContent = '🔊 Voz activa: ' + esVoice.name + ' (' + esVoice.lang + ')';
+      el.style.color = '#2E7D32';
+      el.style.background = '#C8E6C9';
+    } else {
+      el.textContent = '⚠️ Sin voz en español. Actívala en los ajustes del dispositivo.';
+      el.style.color = '#B71C1C';
+      el.style.background = '#FFCDD2';
+    }
   }
 }
 
